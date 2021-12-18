@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -31,8 +30,7 @@ public class MoneyExchangeService {
         }
 
         if (!baseCurrency.equalsIgnoreCase(exchangeMoney.getGivenCurrencyCode()) &&
-                !baseCurrency.equalsIgnoreCase(exchangeMoney.getConvertCurrencyCode())
-        ) {
+                !baseCurrency.equalsIgnoreCase(exchangeMoney.getConvertCurrencyCode())) {
             throw new NotAcceptableException(String.format("Either given currency %s or convert currency %s should be in %s",
                     exchangeMoney.getGivenCurrencyCode(), exchangeMoney.getConvertCurrencyCode(), baseCurrency));
         }
@@ -43,12 +41,15 @@ public class MoneyExchangeService {
             lookupCurrencyCode = exchangeMoney.getGivenCurrencyCode();
         }
 
-        Optional<ExchangeRate> exchangeRateOptional = exchangeRateRepository.findExchangeRateByCurrencyCode(lookupCurrencyCode);
+        ExchangeRate currencyExchangeRate = exchangeRateRepository
+                .findExchangeRateByCurrencyCode(lookupCurrencyCode)
+                .orElseThrow(() -> new NotAcceptableException(String.format("Required currency %s not found.",
+                        baseCurrency.equalsIgnoreCase(exchangeMoney.getConvertCurrencyCode()) ?
+                                exchangeMoney.getGivenCurrencyCode() : exchangeMoney.getConvertCurrencyCode())
+                ));
 
-        if (exchangeRateOptional.isEmpty()) {
-            throw new NotAcceptableException(String.format("Required currency %s not found.", lookupCurrencyCode));
-        }
-        ExchangeRate currencyExchangeRate = exchangeRateOptional.get();
+        exchangeRateRepository
+                .findExchangeRateByCurrencyCode(lookupCurrencyCode).get();
         log.info("Fetched currency exchange rate: {}", currencyExchangeRate);
 
         BigDecimal exchangeAmount = exchangeMoney.getGivenAmount();
@@ -65,7 +66,6 @@ public class MoneyExchangeService {
         ExchangeMoney convertedMoney = new ExchangeMoney(exchangeMoney, exchangeAmount, exchangedRate);
         log.info("Returning: {}", convertedMoney);
         return convertedMoney;
-
     }
 
 }

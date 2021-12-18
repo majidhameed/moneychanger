@@ -55,6 +55,7 @@ public class ApplicationTests {
         ExchangeMoney convertedMoney = moneyExchangeService.exchangeAmount(exchangeMoney);
 
         assertEquals(BigDecimal.valueOf(147.34), convertedMoney.getConvertedAmount());
+        assertEquals(BigDecimal.valueOf(1.3574), convertedMoney.getExchangeRate());
         assertEquals(exchangeMoney.getConvertCurrencyCode(), convertedMoney.getConvertCurrencyCode());
     }
 
@@ -68,6 +69,7 @@ public class ApplicationTests {
         ExchangeMoney convertedMoney = moneyExchangeService.exchangeAmount(exchangeMoney);
 
         assertEquals(BigDecimal.valueOf(1177.86), convertedMoney.getConvertedAmount());
+        assertEquals(BigDecimal.valueOf(0.1698), convertedMoney.getExchangeRate());
         assertEquals(exchangeMoney.getConvertCurrencyCode(), convertedMoney.getConvertCurrencyCode());
     }
 
