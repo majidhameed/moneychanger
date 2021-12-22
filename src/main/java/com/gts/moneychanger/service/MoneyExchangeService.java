@@ -48,8 +48,6 @@ public class MoneyExchangeService {
                                 exchangeMoney.getGivenCurrencyCode() : exchangeMoney.getConvertCurrencyCode())
                 ));
 
-        exchangeRateRepository
-                .findExchangeRateByCurrencyCode(lookupCurrencyCode).get();
         log.info("Fetched currency exchange rate: {}", currencyExchangeRate);
 
         BigDecimal exchangeAmount = exchangeMoney.getGivenAmount();
