@@ -1,3 +1,4 @@
+![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=majidhameed&repo=issuetracker&show_owner=true)
 # MONEY CHANGER
 
 ---
