@@ -1,6 +1,8 @@
 ![](https://img.shields.io/github/license/majidhameed/moneychanger?style=plastic)
 
+<!--
 ![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=majidhameed&repo=moneychanger&show_owner=true)
+-->
 # MONEY CHANGER
 
 ---
